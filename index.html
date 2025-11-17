@@ -14,9 +14,10 @@
         font-family: Arial, sans-serif;
     }
 
+    /* ===== AVATAR NỔI BÊN TRÊN ===== */
     .top-avatar-box {
-        position: absolute;
-        top: 12px;
+        position: fixed;
+        top: 10px;                 /* 🔥 chỉnh vị trí avatar ở đây */
         left: 50%;
         transform: translateX(-50%);
         background: #fff;
@@ -25,7 +26,7 @@
         display: flex;
         align-items: center;
         box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-        z-index: 9999;
+        z-index: 999999999;        /* 🔥 đảm bảo nằm trên LiveChat */
     }
 
     .avatar-wrapper {
@@ -58,10 +59,11 @@
         white-space: nowrap;
     }
 
-    /* ẨN ICON / BUBBLE CHAT */
+    /* ẨN BUBBLE LIVECHAT HOÀN TOÀN */
     #livechat-compact-container,
     #livechat-eye-catcher,
     #livechat-init,
+    .lc-compact,
     iframe[src*="compact"] {
         display: none !important;
         opacity: 0 !important;
@@ -72,6 +74,7 @@
 </head>
 <body>
 
+<!-- 🔥 AVATAR NỔI -->
 <div class="top-avatar-box">
     <div class="avatar-wrapper">
         <img src="avatar.jpg" class="avatar">
@@ -80,21 +83,33 @@
     <div class="name">Vision Nguyễn</div>
 </div>
 
-<!-- LiveChat -->
+
+<!-- ===== LIVECHAT ===== -->
 <script>
 window.__lc = window.__lc || {};
 window.__lc.license = 19355574;
 window.__lc.integration_name = "manual_channels";
 window.__lc.product_name = "livechat";
 
-window.__lc.asyncInit = function() {
-    LiveChatWidget.on("ready", function() {
-        /* MỞ LUÔN KHUNG CHAT */
-        LiveChatWidget.call("maximize");
+/* MỞ CHAT WINDOW NGAY LẬP TỨC */
+window.LiveChatWidget = window.LiveChatWidget || {};
+window.LiveChatWidget.on = function(event, callback){
+    if(event === "ready") {
+        callback();
 
-        /* ẨN ICON CHAT MẶC ĐỊNH */
-        LiveChatWidget.call("hide");
-    });
+        setTimeout(() => {
+            LiveChatWidget.call("maximize");   // 🔥 mở chat ngay lập tức
+        }, 500);
+
+        /* ẨN TOÀN BỘ ICON CHAT */
+        const hide = () => {
+            try {
+                LiveChatWidget.call("hide");
+            } catch(e){}
+        };
+        hide();
+        setInterval(hide, 800);
+    }
 };
 </script>
 
