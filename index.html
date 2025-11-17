@@ -58,12 +58,10 @@
         white-space: nowrap;
     }
 
-    /* ẨN TOÀN BỘ BUBBLE LIVECHAT */
+    /* ẨN ICON / BUBBLE CHAT */
     #livechat-compact-container,
     #livechat-eye-catcher,
     #livechat-init,
-    .lc-compact.lc-compact--left,
-    .lc-compact.lc-compact--right,
     iframe[src*="compact"] {
         display: none !important;
         opacity: 0 !important;
@@ -89,20 +87,14 @@ window.__lc.license = 19355574;
 window.__lc.integration_name = "manual_channels";
 window.__lc.product_name = "livechat";
 
-/* ẨN BUBBLE NGAY KHI WIDGET LOAD */
-window.LiveChatWidget = window.LiveChatWidget || {};
-window.LiveChatWidget.on = function(event, callback){
-    if(event === "ready") {
-        const hide = () => {
-            try {
-                LiveChatWidget.call("hide");
-                LiveChatWidget.call("hide_chat_window");
-            } catch(e){}
-        };
-        callback();
-        setTimeout(hide, 300);
-        setInterval(hide, 1000);
-    }
+window.__lc.asyncInit = function() {
+    LiveChatWidget.on("ready", function() {
+        /* MỞ LUÔN KHUNG CHAT */
+        LiveChatWidget.call("maximize");
+
+        /* ẨN ICON CHAT MẶC ĐỊNH */
+        LiveChatWidget.call("hide");
+    });
 };
 </script>
 
