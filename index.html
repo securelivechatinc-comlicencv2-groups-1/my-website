@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Tên miền chính hãng HIT.CLUB</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="logo_livechat.png" type="image/png" sizes="32x32">
+
+    <!-- FAVICON CHUẨN -->
+    <link rel="icon" href="logo_livechat.png" type="image/png">
+
     <style>
       body {
         margin: 0;
@@ -13,6 +16,8 @@
         height: 100vh;
         font-family: Arial, sans-serif;
       }
+
+      /* Thanh tên phía trên */
       .top-avatar-box {
         position: fixed;
         top: 18px;
@@ -26,31 +31,47 @@
         box-shadow: 0 4px 14px rgba(0,0,0,0.18);
         z-index: 99999999;
       }
+
       .name {
         font-size: 16px;
         font-weight: 600;
         color: #000;
         white-space: nowrap;
       }
+
+      /* Bỏ toàn bộ bong bóng, eye-catcher, compact LiveChat */
       #livechat-compact-container,
       #livechat-eye-catcher,
-      div[id*="bubble"] {
+      div[id*="chat-widget"] ,
+      div[id*="bubble"],
+      iframe[src*="eye-catcher"],
+      div[class*="lc-"] {
         display: none !important;
       }
     </style>
 </head>
+
 <body>
+  <!-- Thanh tên -->
   <div class="top-avatar-box">
     <div class="name">Vision Nguyễn</div>
   </div>
+
+  <!-- Script LiveChat -->
   <script>
     window.__lc = window.__lc || {};
     window.__lc.license = 19355574;
+
     window.LiveChatWidget = window.LiveChatWidget || {};
+
     window.LiveChatWidget.on = function (event, callback) {
       if (event === "ready") {
         callback();
+
+        // Ẩn toàn bộ widget trước
         try { LiveChatWidget.call("hide"); } catch (e) {}
+
+        // Tự động bật cửa sổ chat
         setTimeout(function() {
           try {
             LiveChatWidget.call("maximize");
@@ -60,6 +81,7 @@
       }
     };
   </script>
+
   <script src="https://cdn.livechatinc.com/tracking.js" async></script>
 </body>
 </html>
