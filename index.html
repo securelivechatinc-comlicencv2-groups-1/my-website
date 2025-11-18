@@ -36,11 +36,12 @@
         white-space: nowrap;
       }
 
-      /* Chỉ ẩn bubble và eye-catcher — KHÔNG ẩn widget chat */
-      #livechat-compact-container,
+      /* CHỈ ẨN NÚT FLOATING */
+      .lc-1mpchac.e1m6sig11, 
+      #livechat-compact-view,
       #livechat-eye-catcher,
-      div[id*="bubble"],
-      iframe[src*="eye-catcher"] {
+      iframe[src*="compact"],
+      div[id*="bubble"] {
         display: none !important;
       }
     </style>
@@ -57,10 +58,9 @@
 
     window.LiveChatWidget = window.LiveChatWidget || {};
 
-    // Khi widget sẵn sàng
-    window.LiveChatWidget.on("ready", function () {
+    LiveChatWidget.on("ready", function () {
 
-        // Ẩn bubble
+        // Ẩn compact
         try { LiveChatWidget.call("hide"); } catch(e) {}
 
         // Tự bật cửa sổ chat
@@ -69,7 +69,7 @@
                 LiveChatWidget.call("maximize");
                 LiveChatWidget.call("open_chat_window");
             } catch(e) {}
-        }, 500);
+        }, 600);
     });
   </script>
 
