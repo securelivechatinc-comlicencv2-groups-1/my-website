@@ -2,94 +2,71 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Tên miền chính hãng HIT.CLUB</title>
+    <title>LiveChat Tự Động</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="logo_livechat.png" type="image/png" sizes="32x32">
 
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background: #ffffff;
-        height: 100vh;
-        font-family: Arial, sans-serif;
-      }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #ffffff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
 
-      .top-box {
-        position: fixed;
-        top: 18px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #ffffff;
-        padding: 10px 24px;
-        border-radius: 40px;
-        box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-        z-index: 99999;
-      }
-
-      .name {
-        font-size: 16px;
-        font-weight: 600;
-        color: #000;
-        white-space: nowrap;
-      }
-
-      /* Nội dung trang để không bị trắng */
-      .content {
-        margin-top: 120px;
-        text-align: center;
-        font-size: 20px;
-        color: #333;
-      }
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #555;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
 
-  <!-- TITLE -->
-  <div class="top-box">
-    <div class="name">Vision Nguyễn</div>
-  </div>
+<div class="loading-text">Website đang hoạt động – LiveChat đang tải…</div>
 
-  <!-- NỘI DUNG ĐỂ KHÔNG BỊ TRẮNG -->
-  <div class="content">
-      Website đang hoạt động – LiveChat đang tải…
-  </div>
+<!-- LIVECHAT CODE -->
+<script>
+    window.__lc = window.__lc || {};
+    window.__lc.license = 19355574;
+    window.__lc.integration_name = "manual_channels";
+    window.__lc.product_name = "livechat";
 
-  <!-- LIVECHAT CODE -->
-  <script>
-      window.__lc = window.__lc || {};
-      window.__lc.license = 19355574;
-      window.__lc.integration_name = "manual_channels";
-      window.__lc.product_name = "livechat";
+    (function(n,t,c){
+        function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}
+        var e={_q:[],_h:null,_v:"2.0",
+            on:function(){i(["on",c.call(arguments)])},
+            once:function(){i(["once",c.call(arguments)])},
+            off:function(){i(["off",c.call(arguments)])},
+            get:function(){return i(["get",c.call(arguments)])},
+            call:function(){i(["call",c.call(arguments)])},
+            init:function(){
+                var n=t.createElement("script");
+                n.async=true;
+                n.src="https://cdn.livechatinc.com/tracking.js";
+                t.head.appendChild(n);
+            }
+        };
+        !n.__lc.asyncInit && e.init();
+        n.LiveChatWidget = n.LiveChatWidget || e;
+    })(window,document,[].slice);
+</script>
 
-      (function(n,t,c){
-          function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}
-          var e={_q:[],_h:null,_v:"2.0",
-              on:function(){i(["on",c.call(arguments)])},
-              once:function(){i(["once",c.call(arguments)])},
-              off:function(){i(["off",c.call(arguments)])},
-              get:function(){if(!e._h)throw new Error("Widget chưa load.");return i(["get",c.call(arguments)])},
-              call:function(){i(["call",c.call(arguments)])},
-              init:function(){
-                  var n=t.createElement("script");
-                  n.async=true;
-                  n.src="https://cdn.livechatinc.com/tracking.js";
-                  t.head.appendChild(n);
-              }
-          };
-          !n.__lc.asyncInit && e.init();
-          n.LiveChatWidget = n.LiveChatWidget || e;
-      })(window,document,[].slice);
-  </script>
-
-  <!-- TỰ ĐỘNG MỞ CHAT -->
-  <script>
-      LiveChatWidget.on('ready', function() {
-          setTimeout(function(){
-              LiveChatWidget.call('maximize');
-          }, 800);
-      });
-  </script>
+<!-- AUTO OPEN (CHẮC CHẮN HOẠT ĐỘNG) -->
+<script>
+    window.addEventListener("load", function () {
+        let checkWidget = setInterval(() => {
+            if (window.LiveChatWidget && LiveChatWidget.call) {
+                LiveChatWidget.call('maximize');
+                clearInterval(checkWidget);
+            }
+        }, 300);
+    });
+</script>
 
 </body>
 </html>
