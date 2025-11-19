@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>LiveChat Tự Động</title>
+    <title>LiveChat Hoạt Động</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
@@ -27,45 +27,52 @@
 </head>
 <body>
 
-<div class="loading-text">Website đang hoạt động – LiveChat đang tải…</div>
+<div class="loading-text" id="status">Website đang hoạt động – LiveChat đang tải…</div>
 
-<!-- LIVECHAT CHUẨN 100% -->
+<!-- LIVECHAT TRACKING -->
 <script>
 window.__lc = window.__lc || {};
 window.__lc.license = 19355574;
-window.__lc.integration_name = "manual_channels";
-window.__lc.product_name = "livechat";
+window.__lc.chat_window_overwritten = true;  // Quan trọng cho GitHub Pages
 
-(function(n,t,c){
-    function i(n){return e._h ? e._h.apply(null,n) : e._q.push(n)}
-    var e = {
-        _q: [], _h: null, _v: "2.0",
-        on: function(){ i(["on", c.call(arguments)]) },
-        once: function(){ i(["once", c.call(arguments)]) },
-        off: function(){ i(["off", c.call(arguments)]) },
-        get: function(){ i(["get", c.call(arguments)]) },
-        call: function(){ i(["call", c.call(arguments)]) },
-        init: function(){
-            var s = t.createElement("script");
-            s.async = true;
-            s.src = "https://cdn.livechatinc.com/tracking.js";
-            t.head.appendChild(s);
-        }
-    };
-    e.init();
-    n.LiveChatWidget = n.LiveChatWidget || e;
-})(window, document, [].slice);
+(function() {
+    var lc = document.createElement("script");
+    lc.type = "text/javascript";
+    lc.async = true;
+    lc.src = "https://cdn.livechatinc.com/tracking.js";
+    document.head.appendChild(lc);
+})();
 </script>
 
-<!-- TỰ ĐỘNG MỞ WIDGET -->
+<!-- AUTO OPEN SAU KHI WIDGET LOAD -->
 <script>
+let opened = false;
+
 window.addEventListener("load", function () {
+
     let check = setInterval(() => {
         if (window.LiveChatWidget && LiveChatWidget.call) {
-            LiveChatWidget.call("maximize");
+
+            document.getElementById("status").innerText = "LiveChat đã tải – đang mở khung chat…";
+
+            // chờ widget render xong 500ms rồi mở
+            setTimeout(() => {
+                LiveChatWidget.call('maximize');
+            }, 500);
+
+            opened = true;
             clearInterval(check);
         }
     }, 300);
+
+    // nếu 7 giây không load được -> báo lỗi
+    setTimeout(() => {
+        if (!opened) {
+            document.getElementById("status").innerText =
+                "Lỗi: LiveChat không tải được (Kiểm tra mạng hoặc license).";
+        }
+    }, 7000);
+
 });
 </script>
 
